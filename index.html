@@ -268,6 +268,38 @@ body.dark-mode #dark-mode-toggle .sun-icon {
     font-size: 9px;
     line-height: 1.2;
   }
+  /* Adjustments for the search engine dropdown on mobile */
+  #search-engine-dropdown {
+    padding: 3px 6px; /* Further reduce padding */
+    font-size: 12px;   /* Further reduce font size */
+    border-radius: 6px; /* Slightly less rounded corners */
+    min-width: 40px; /* Smaller minimum width */
+  }
+
+  #search-engine-dropdown option {
+    padding: 3px 6px; /* Match reduced padding of the dropdown */
+  }
+
+  /* Adjust the custom arrow position on mobile */
+  #search-engine-dropdown::after {
+    right: 8px; /* Move the arrow slightly to the left */
+  }
+
+  /* Adjust top-right controls position */
+  .top-right-controls {
+        top: 15px;
+        right: 15px;
+        justify-content: space-between;
+        width: 90%;
+    }
+
+    /* Adjust search engine selector position */
+    #search-engine-selector {
+        margin-bottom: 0; /* Remove margin to align with the toggle button */
+    }
+    #search-container {
+        margin-top: 60px; /* Adjust as needed */
+    }
 }
 
 /* Search Engine Dropdown */
@@ -343,22 +375,6 @@ body.dark-mode #search-engine-dropdown::after {
   align-items: center;
   gap: 10px;
   z-index: 10;
-}
-
-@media (max-width: 768px) {
-  .top-right-controls {
-    top: 15px;
-    right: 15px;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
-  }
-  #search-engine-selector {
-    margin-bottom: 5px;
-  }
-  #search-engine-dropdown {
-    font-size: 12px;
-  }
 }
 </style>
 
