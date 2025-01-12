@@ -167,6 +167,7 @@ body.dark-mode #algorithm-text {
   position: relative;
   transition: background-color 0.3s ease;
   overflow: hidden; /* Hide the 'before' element when transitioning */
+  z-index: 10; /* Ensure it's above other elements */
 }
 
 #dark-mode-toggle .toggle-icon {
@@ -274,16 +275,85 @@ body.dark-mode #dark-mode-toggle .sun-icon {
     line-height: 1.2; /* Adjust line height for readability */
   }
 }
+
+/* Search Engine Buttons */
+#search-engine-selector {
+  position: fixed;
+  top: 20px;
+  right: 90px; /* Adjusted to be to the left of the dark mode toggle */
+  display: flex;
+  gap: 10px;
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+.search-engine-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.search-engine-button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-engine-button.active {
+  background-color: #4285f4;
+  color: white;
+  border-color: #4285f4;
+}
+
+body.dark-mode .search-engine-button {
+  background-color: #37474f;
+  color: #f0f0f0;
+  border-color: #607d8b;
+}
+
+body.dark-mode .search-engine-button:hover {
+  background-color: #455a64;
+}
+
+body.dark-mode .search-engine-button.active {
+  background-color: #607d8b;
+  color: #fff;
+  border-color: #607d8b;
+}
+
+@media (max-width: 768px) {
+  #search-engine-selector {
+    position: fixed;
+    top: 60px; /* Adjust for smaller screens */
+    right: 15px;
+    flex-direction: column; /* Stack buttons on smaller screens */
+    align-items: flex-end; /* Align buttons to the right */
+    gap: 5px;
+  }
+
+  .search-engine-button {
+    width: auto; /* Adjust width for stacked buttons */
+    display: block; /* Make them block elements */
+    text-align: center;
+  }
+}
 </style>
 
 </head>
 <body >
 <div id="search-container">
   <img id="capybara-logo" src="image.webp" alt="Capybara Logo">
-  <form action="https://www.google.com/search" method="get">
+  <form id="search-form" action="https://www.google.com/search" method="get">
     <input type="text" id="search-input" name="q" placeholder="What are you curious about today?">
     <input type="submit" id="search-button" value="Ask the Capybara!">
   </form>
+</div>
+<div id="search-engine-selector">
+  <button class="search-engine-button active" data-engine="google">Google</button>
+  <button class="search-engine-button" data-engine="duckduckgo">DuckDuckGo</button>
+  <button class="search-engine-button" data-engine="bing">Bing</button>
 </div>
 <button id="dark-mode-toggle">
   <svg class="toggle-icon sun-icon" viewBox="0 0 24 24">
@@ -297,6 +367,15 @@ body.dark-mode #dark-mode-toggle .sun-icon {
 <script>
   const body = document.body;
   const darkModeToggle = document.getElementById('dark-mode-toggle');
+  const searchForm = document.getElementById('search-form');
+  const searchEngineButtons = document.querySelectorAll('.search-engine-button');
+
+  // Search engine URLs
+  const searchEngines = {
+    google: 'https://www.google.com/search',
+    duckduckgo: 'https://duckduckgo.com/',
+    bing: 'https://www.bing.com/search'
+  };
 
   // Function to set dark mode
   function setDarkMode(isDark) {
@@ -316,6 +395,19 @@ body.dark-mode #dark-mode-toggle .sun-icon {
     localStorage.setItem('darkMode', isDarkMode);
   }
 
+  // Function to set the search engine
+  function setSearchEngine(engine) {
+    searchForm.action = searchEngines[engine];
+    localStorage.setItem('searchEngine', engine);
+    // Update button active state
+    searchEngineButtons.forEach(button => {
+      button.classList.remove('active');
+      if (button.dataset.engine === engine) {
+        button.classList.add('active');
+      }
+    });
+  }
+
   // Apply dark mode based on stored preference on page load
   document.addEventListener('DOMContentLoaded', () => {
     const storedDarkMode = localStorage.getItem('darkMode');
@@ -324,10 +416,23 @@ body.dark-mode #dark-mode-toggle .sun-icon {
     } else if (storedDarkMode === 'false') {
       setDarkMode(false);
     }
+
+    // Apply stored search engine preference
+    const storedSearchEngine = localStorage.getItem('searchEngine');
+    if (storedSearchEngine && searchEngines[storedSearchEngine]) {
+      setSearchEngine(storedSearchEngine);
+    }
   });
 
   // Add event listener to the toggle button
   darkModeToggle.addEventListener('click', toggleDarkMode);
+
+  // Add event listeners to search engine buttons
+  searchEngineButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      setSearchEngine(this.dataset.engine);
+    });
+  });
 </script>
 <div id="bottom-legal-container">
   <div id="algorithm-text">Powered by a surprisingly advanced algorithm (mostly capybaras)</div>
