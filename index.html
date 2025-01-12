@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <title>Capybara Search</title>
@@ -181,27 +180,36 @@ body.dark-mode #dark-mode-toggle::before {
 </style>
 
 </head>
-<body class="dark-mode">
+<body>
 <div id="search-container">
   <img id="capybara-logo" src="image.webp" alt="Capybara Logo">
   <form action="https://www.google.com/search" method="get">
-    <input type="text" id="search-input" name="q" placeholder="What are you curious about today?" class="dark-mode">
-    <input type="submit" id="search-button" value="Ask the Capybara!" class="dark-mode">
+    <input type="text" id="search-input" name="q" placeholder="What are you curious about today?">
+    <input type="submit" id="search-button" value="Ask the Capybara!">
   </form>
 </div>
 <button id="dark-mode-toggle"></button>
 <script>
   // Function to toggle dark mode
   function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    document.getElementById('search-input').classList.toggle('dark-mode');
-    document.getElementById('search-button').classList.toggle('dark-mode');
-    document.querySelector('footer').classList.toggle('dark-mode');
-    document.getElementById('bottom-legal-container').classList.toggle('dark-mode');
-    document.getElementById('bottom-legal').classList.toggle('dark-mode');
-    document.querySelectorAll('.technical-gibberish').forEach(el => el.classList.toggle('dark-mode'));
-    // Store the dark mode preference
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    const body = document.body;
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+    const footer = document.querySelector('footer');
+    const bottomLegalContainer = document.getElementById('bottom-legal-container');
+    const bottomLegal = document.getElementById('bottom-legal');
+    const technicalGibberishElements = document.querySelectorAll('.technical-gibberish');
+
+    body.classList.toggle('dark-mode');
+    searchInput.classList.toggle('dark-mode');
+    searchButton.classList.toggle('dark-mode');
+    footer.classList.toggle('dark-mode');
+    bottomLegalContainer.classList.toggle('dark-mode');
+    bottomLegal.classList.toggle('dark-mode');
+    technicalGibberishElements.forEach(el => el.classList.toggle('dark-mode'));
+
+    // Store the dark mode preference in localStorage
+    localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
   }
 
   // Get the toggle button element
@@ -210,11 +218,9 @@ body.dark-mode #dark-mode-toggle::before {
   // Add event listener to the toggle button
   darkModeToggle.onclick = toggleDarkMode;
 
-  // Apply dark mode by default on page load
+  // Apply dark mode based on stored preference on page load
   document.addEventListener('DOMContentLoaded', () => {
-    // Check for stored dark mode preference
-    const storedDarkMode = localStorage.getItem('darkMode');
-    if (storedDarkMode === 'true') {
+    if (localStorage.getItem('darkMode') === 'true') {
       document.body.classList.add('dark-mode');
       document.getElementById('search-input').classList.add('dark-mode');
       document.getElementById('search-button').classList.add('dark-mode');
@@ -225,6 +231,19 @@ body.dark-mode #dark-mode-toggle::before {
     }
   });
 
+  // Set initial dark mode on page load if no preference is set (as requested)
+  if (localStorage.getItem('darkMode') === null) {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('dark-mode');
+      document.getElementById('search-input').classList.add('dark-mode');
+      document.getElementById('search-button').classList.add('dark-mode');
+      document.querySelector('footer').classList.add('dark-mode');
+      document.getElementById('bottom-legal-container').classList.add('dark-mode');
+      document.getElementById('bottom-legal').classList.add('dark-mode');
+      document.querySelectorAll('.technical-gibberish').forEach(el => el.classList.add('dark-mode'));
+      localStorage.setItem('darkMode', 'true'); // Set the preference
+    });
+  }
 </script>
 <footer class="dark-mode">Powered by a surprisingly advanced algorithm (mostly capybaras)</footer>
 <div id="bottom-right-humor">
