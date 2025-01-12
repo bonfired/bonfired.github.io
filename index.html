@@ -4,7 +4,6 @@
 <title>Capybara Search</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* this site has dark mode toggle make it dark mode by default */
 /* Light Mode (Default) */
 body {
   font-family: Arial, sans-serif;
@@ -14,9 +13,10 @@ body {
   overflow-x: hidden;
   color: #333;
   cursor: url(https://www.cursor.cc/cursor3d/187569.png), auto;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for mode change */
+  transition: background-color 0.3s ease, color 0.3s ease;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 #search-container {
   width: 80%;
@@ -31,7 +31,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-  background-color: white; /* Light input background */
+  background-color: white;
   color: #333;
 }
 #search-input:focus {
@@ -55,7 +55,7 @@ body {
 }
 #capybara-logo {
   width: 600px;
-  max-width: 90%; /* Make logo responsive */
+  max-width: 90%;
   margin: 20px auto;
   display: block;
   transition: transform 1s ease-in-out;
@@ -81,14 +81,15 @@ footer {
   text-align: center;
   margin-top: auto;
   padding-bottom: 10px;
-  width: 80%; /* Adjust as needed */
-  max-width: 600px; /* Limit the width of the box */
+  width: 80%;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #888; /* Add a border */
-  padding: 10px; /* Add some padding inside the border */
-  border-radius: 5px; /* Optional: round the corners */
+  border: 1px solid #888;
+  padding: 10px;
+  border-radius: 5px;
   transition: border-color 0.3s ease;
+  box-sizing: border-box;
 }
 #bottom-legal {
   font-size: 11px;
@@ -105,41 +106,51 @@ footer {
 .technical-gibberish {
   font-style: italic;
   color: #999;
-  font-size: 14px; /* Increased font size */
+  font-size: 14px;
   margin-bottom: 5px;
   transition: color 0.3s ease;
+}
+#algorithm-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #777;
+    transition: color 0.3s ease;
+    margin-bottom: 10px; /* Add some spacing */
 }
 
 /* Dark Mode */
 body.dark-mode {
-background: linear-gradient(135deg, #2c3e50 0%, #45688e 100%); /* Darker gradient */
-color: #f0f0f0; /* Light text */
+  background: linear-gradient(135deg, #2c3e50 0%, #45688e 100%);
+  color: #f0f0f0;
 }
-#search-input.dark-mode {
-background-color: #37474f; /* Darker input background */
-color: #f0f0f0;
-border-color: #607d8b;
+body.dark-mode #search-input {
+  background-color: #37474f;
+  color: #f0f0f0;
+  border-color: #607d8b;
 }
-#search-button.dark-mode {
-background-color: #607d8b; /* Darker button */
-color: #fff;
-box-shadow: 0 1px 3px rgba(255,255,255,0.12), 0 1px 2px rgba(255,255,255,0.24);
+body.dark-mode #search-button {
+  background-color: #607d8b;
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(255,255,255,0.12), 0 1px 2px rgba(255,255,255,0.24);
 }
-#search-button.dark-mode:hover {
-background-color: #546e7a;
-box-shadow: 0 3px 6px rgba(255,255,255,0.16), 0 3px 6px rgba(255,255,255,0.23);
+body.dark-mode #search-button:hover {
+  background-color: #546e7a;
+  box-shadow: 0 3px 6px rgba(255,255,255,0.16), 0 3px 6px rgba(255,255,255,0.23);
 }
-footer.dark-mode {
-color: #ccc;
+body.dark-mode footer {
+  color: #ccc;
 }
-#bottom-legal-container.dark-mode {
-border-color: #aaa;
+body.dark-mode #bottom-legal-container {
+  border-color: #aaa;
 }
-#bottom-legal.dark-mode {
-color: #aaa;
+body.dark-mode #bottom-legal {
+  color: #aaa;
 }
-.technical-gibberish.dark-mode {
-color: #bbb;
+body.dark-mode .technical-gibberish {
+  color: #bbb;
+}
+body.dark-mode #algorithm-text {
+    color: #ccc;
 }
 
 /* Modern Dark Mode Toggle */
@@ -149,38 +160,124 @@ color: #bbb;
   right: 20px;
   width: 60px;
   height: 30px;
-  background-color: #333; /* Dark background */
+  background-color: #333;
   border-radius: 15px;
   border: none;
   cursor: pointer;
   position: relative;
   transition: background-color 0.3s ease;
+  overflow: hidden; /* Hide the 'before' element when transitioning */
 }
 
-#dark-mode-toggle::before {
-  content: '';
+#dark-mode-toggle .toggle-icon {
   position: absolute;
-  top: 3px;
-  left: 4px;
-  width: 24px;
-  height: 24px;
-  background-color: #eee; /* Light handle */
-  border-radius: 50%;
-  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); /* Smooth movement */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  fill: #eee;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#dark-mode-toggle .moon-icon {
+  opacity: 1; /* Moon visible in light mode */
+  transform: translate(-50%, -50%) scale(1); /* Moon normal size in light mode */
+}
+
+#dark-mode-toggle .sun-icon {
+  opacity: 0; /* Sun hidden in light mode */
+  transform: translate(-50%, -50%) scale(0.5); /* Sun smaller in light mode */
 }
 
 body.dark-mode #dark-mode-toggle {
-  background-color: #ccc; /* Light background in dark mode */
+  background-color: #ccc;
 }
 
-body.dark-mode #dark-mode-toggle::before {
-  transform: translateX(30px); /* Move handle to the right */
-  background-color: #333; /* Dark handle in dark mode */
+body.dark-mode #dark-mode-toggle .moon-icon {
+  opacity: 0; /* Moon hidden in dark mode */
+  transform: translate(-50%, -50%) scale(0.5); /* Moon smaller in dark mode */
+}
+
+body.dark-mode #dark-mode-toggle .sun-icon {
+  opacity: 1; /* Sun visible in dark mode */
+  transform: translate(-50%, -50%) scale(1); /* Sun normal size in dark mode */
+}
+
+/* Media Query for smaller screens (e.g., phones) */
+@media (max-width: 768px) {
+  #search-container {
+    width: 90%;
+    margin: 30px auto;
+  }
+  #search-input {
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  #search-button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #capybara-logo {
+    width: 80%;
+    max-width: 300px; /* Slightly smaller logo on mobile */
+    margin: 20px auto;
+  }
+  footer {
+    display: none; /* Hide the footer on mobile */
+  }
+  #dark-mode-toggle {
+    top: 15px;
+    right: 15px;
+    width: 50px;
+    height: 25px;
+    border-radius: 12.5px;
+    margin-bottom: 20px; /* Added margin below the toggle */
+  }
+  #dark-mode-toggle .toggle-icon {
+    width: 16px;
+    height: 16px;
+  }
+  #bottom-legal-container {
+    margin-top: 20px; /* Added top margin to create space */
+    padding: 10px; /* Reduced padding */
+    width: 95%; /* Slightly wider container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Added a bit of bottom margin */
+  }
+  #bottom-right-humor {
+    position: static;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 5px; /* Reduced margin */
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .technical-gibberish {
+    font-size: 12px; /* Smaller font */
+    margin-bottom: 3px; /* Reduced margin */
+  }
+  #algorithm-text {
+    font-size: 12px; /* Smaller font */
+    margin-bottom: 5px; /* Reduced margin */
+  }
+  #bottom-legal {
+    width: 100%;
+    font-size: 9px; /* Even smaller legal text */
+    line-height: 1.2; /* Adjust line height for readability */
+  }
 }
 </style>
 
 </head>
-<body>
+<body >
 <div id="search-container">
   <img id="capybara-logo" src="image.webp" alt="Capybara Logo">
   <form action="https://www.google.com/search" method="get">
@@ -188,70 +285,57 @@ body.dark-mode #dark-mode-toggle::before {
     <input type="submit" id="search-button" value="Ask the Capybara!">
   </form>
 </div>
-<button id="dark-mode-toggle"></button>
+<button id="dark-mode-toggle">
+  <svg class="toggle-icon sun-icon" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="5" fill="currentColor"/>
+    <path d="M12,2 L12,4 M12,20 L12,22 M4.22,4.22 L5.64,5.64 M18.36,18.36 L19.78,19.78 M2,12 L4,12 M20,12 L22,12 M4.22,19.78 L5.64,18.36 M18.36,5.64 L19.78,4.22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <svg class="toggle-icon moon-icon" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M9.916 5.5C6.4 5.5 3.5 8.4 3.5 11.916c0 3.516 2.9 6.416 6.416 6.416 1.812 0 3.458-.762 4.625-2.008a7.5 7.5 0 0 1-8.124-4.408z"/>
+  </svg>
+</button>
 <script>
-  // Function to toggle dark mode
-  function toggleDarkMode() {
-    const body = document.body;
-    const searchInput = document.getElementById('search-input');
-    const searchButton = document.getElementById('search-button');
-    const footer = document.querySelector('footer');
-    const bottomLegalContainer = document.getElementById('bottom-legal-container');
-    const bottomLegal = document.getElementById('bottom-legal');
-    const technicalGibberishElements = document.querySelectorAll('.technical-gibberish');
-
-    body.classList.toggle('dark-mode');
-    searchInput.classList.toggle('dark-mode');
-    searchButton.classList.toggle('dark-mode');
-    footer.classList.toggle('dark-mode');
-    bottomLegalContainer.classList.toggle('dark-mode');
-    bottomLegal.classList.toggle('dark-mode');
-    technicalGibberishElements.forEach(el => el.classList.toggle('dark-mode'));
-
-    // Store the dark mode preference in localStorage
-    localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
-  }
-
-  // Get the toggle button element
+  const body = document.body;
   const darkModeToggle = document.getElementById('dark-mode-toggle');
 
-  // Add event listener to the toggle button
-  darkModeToggle.onclick = toggleDarkMode;
+  // Function to set dark mode
+  function setDarkMode(isDark) {
+    body.classList.toggle('dark-mode', isDark);
+    // Update toggle icon visually
+    if (isDark) {
+      darkModeToggle.classList.add('dark-mode-active');
+    } else {
+      darkModeToggle.classList.remove('dark-mode-active');
+    }
+  }
+
+  // Function to toggle dark mode and store the preference
+  function toggleDarkMode() {
+    const isDarkMode = !body.classList.contains('dark-mode');
+    setDarkMode(isDarkMode);
+    localStorage.setItem('darkMode', isDarkMode);
+  }
 
   // Apply dark mode based on stored preference on page load
   document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('darkMode') === 'true') {
-      document.body.classList.add('dark-mode');
-      document.getElementById('search-input').classList.add('dark-mode');
-      document.getElementById('search-button').classList.add('dark-mode');
-      document.querySelector('footer').classList.add('dark-mode');
-      document.getElementById('bottom-legal-container').classList.add('dark-mode');
-      document.getElementById('bottom-legal').classList.add('dark-mode');
-      document.querySelectorAll('.technical-gibberish').forEach(el => el.classList.add('dark-mode'));
+    const storedDarkMode = localStorage.getItem('darkMode');
+    if (storedDarkMode === 'true') {
+      setDarkMode(true);
+    } else if (storedDarkMode === 'false') {
+      setDarkMode(false);
     }
   });
 
-  // Set initial dark mode on page load if no preference is set (as requested)
-  if (localStorage.getItem('darkMode') === null) {
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.classList.add('dark-mode');
-      document.getElementById('search-input').classList.add('dark-mode');
-      document.getElementById('search-button').classList.add('dark-mode');
-      document.querySelector('footer').classList.add('dark-mode');
-      document.getElementById('bottom-legal-container').classList.add('dark-mode');
-      document.getElementById('bottom-legal').classList.add('dark-mode');
-      document.querySelectorAll('.technical-gibberish').forEach(el => el.classList.add('dark-mode'));
-      localStorage.setItem('darkMode', 'true'); // Set the preference
-    });
-  }
+  // Add event listener to the toggle button
+  darkModeToggle.addEventListener('click', toggleDarkMode);
 </script>
-<footer class="dark-mode">Powered by a surprisingly advanced algorithm (mostly capybaras)</footer>
-<div id="bottom-right-humor">
-  <div class="technical-gibberish dark-mode">Results may vary depending on ambient humidity.</div>
-  <div class="technical-gibberish dark-mode">Local capybara opinions influence results.</div>
-</div>
-<div id="bottom-legal-container" class="dark-mode">
-  <div id="bottom-legal" class="dark-mode">The operators of this site make no guarantees regarding the accuracy of search results in relation to actual capybaras, disclaim responsibility for subjective interpretations, note that any resemblance to actual capybaras is coincidental, and by using this service, the user acknowledges the possibility of excessive exposure to capybaras.</div>
+<div id="bottom-legal-container">
+  <div id="algorithm-text">Powered by a surprisingly advanced algorithm (mostly capybaras)</div>
+  <div id="bottom-right-humor">
+    <div class="technical-gibberish">Results may vary depending on ambient humidity.</div>
+    <div class="technical-gibberish">Local capybara opinions influence results.</div>
+  </div>
+  <div id="bottom-legal">The operators of this site make no guarantees regarding the accuracy of search results in relation to actual capybaras, disclaim responsibility for subjective interpretations, note that any resemblance to actual capybaras is coincidental, and by using this service, the user acknowledges the possibility of excessive exposure to capybaras.</div>
 </div>
 </body>
 </html>
