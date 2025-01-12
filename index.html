@@ -115,7 +115,7 @@ footer {
     font-weight: bold;
     color: #777;
     transition: color 0.3s ease;
-    margin-bottom: 10px; /* Add some spacing */
+    margin-bottom: 10px;
 }
 
 /* Dark Mode */
@@ -155,9 +155,6 @@ body.dark-mode #algorithm-text {
 
 /* Modern Dark Mode Toggle */
 #dark-mode-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
   width: 60px;
   height: 30px;
   background-color: #333;
@@ -166,15 +163,14 @@ body.dark-mode #algorithm-text {
   cursor: pointer;
   position: relative;
   transition: background-color 0.3s ease;
-  overflow: hidden; /* Hide the 'before' element when transitioning */
-  z-index: 10; /* Ensure it's above other elements */
+  overflow: hidden;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #dark-mode-toggle .toggle-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 20px;
   height: 20px;
   fill: #eee;
@@ -182,13 +178,13 @@ body.dark-mode #algorithm-text {
 }
 
 #dark-mode-toggle .moon-icon {
-  opacity: 1; /* Moon visible in light mode */
-  transform: translate(-50%, -50%) scale(1); /* Moon normal size in light mode */
+  opacity: 1;
+  transform: scale(1);
 }
 
 #dark-mode-toggle .sun-icon {
-  opacity: 0; /* Sun hidden in light mode */
-  transform: translate(-50%, -50%) scale(0.5); /* Sun smaller in light mode */
+  opacity: 0;
+  transform: scale(0.5);
 }
 
 body.dark-mode #dark-mode-toggle {
@@ -196,13 +192,13 @@ body.dark-mode #dark-mode-toggle {
 }
 
 body.dark-mode #dark-mode-toggle .moon-icon {
-  opacity: 0; /* Moon hidden in dark mode */
-  transform: translate(-50%, -50%) scale(0.5); /* Moon smaller in dark mode */
+  opacity: 0;
+  transform: scale(0.5);
 }
 
 body.dark-mode #dark-mode-toggle .sun-icon {
-  opacity: 1; /* Sun visible in dark mode */
-  transform: translate(-50%, -50%) scale(1); /* Sun normal size in dark mode */
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Media Query for smaller screens (e.g., phones) */
@@ -222,121 +218,146 @@ body.dark-mode #dark-mode-toggle .sun-icon {
   }
   #capybara-logo {
     width: 80%;
-    max-width: 300px; /* Slightly smaller logo on mobile */
+    max-width: 300px;
     margin: 20px auto;
   }
   footer {
-    display: none; /* Hide the footer on mobile */
+    display: none;
   }
   #dark-mode-toggle {
-    top: 15px;
-    right: 15px;
     width: 50px;
     height: 25px;
     border-radius: 12.5px;
-    margin-bottom: 20px; /* Added margin below the toggle */
+    margin-bottom: 0;
   }
   #dark-mode-toggle .toggle-icon {
     width: 16px;
     height: 16px;
   }
   #bottom-legal-container {
-    margin-top: 20px; /* Added top margin to create space */
-    padding: 10px; /* Reduced padding */
-    width: 95%; /* Slightly wider container */
+    margin-top: 20px;
+    padding: 10px;
+    width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
-    margin-bottom: 10px; /* Added a bit of bottom margin */
+    margin-bottom: 10px;
   }
   #bottom-right-humor {
     position: static;
     text-align: center;
     margin-top: 0;
-    margin-bottom: 5px; /* Reduced margin */
+    margin-bottom: 5px;
     padding: 0;
     box-sizing: border-box;
     width: 100%;
   }
   .technical-gibberish {
-    font-size: 12px; /* Smaller font */
-    margin-bottom: 3px; /* Reduced margin */
+    font-size: 12px;
+    margin-bottom: 3px;
   }
   #algorithm-text {
-    font-size: 12px; /* Smaller font */
-    margin-bottom: 5px; /* Reduced margin */
+    font-size: 12px;
+    margin-bottom: 5px;
   }
   #bottom-legal {
     width: 100%;
-    font-size: 9px; /* Even smaller legal text */
-    line-height: 1.2; /* Adjust line height for readability */
+    font-size: 9px;
+    line-height: 1.2;
   }
 }
 
-/* Search Engine Buttons */
+/* Search Engine Dropdown */
 #search-engine-selector {
-  position: fixed;
-  top: 20px;
-  right: 90px; /* Adjusted to be to the left of the dark mode toggle */
-  display: flex;
-  gap: 10px;
-  z-index: 10; /* Ensure it's above other elements */
+  z-index: 10;
 }
 
-.search-engine-button {
-  padding: 8px 16px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* Styling for the search engine dropdown */
+#search-engine-dropdown {
+  padding: 8px 16px; /* Increase padding for larger size */
+  font-size: 16px;   /* Increase font size */
+  border: 2px solid #ccc; /* Thicker border */
+  border-radius: 8px; /* More rounded corners */
   cursor: pointer;
   background-color: white;
   color: #333;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: auto; /* Adjust width to content */
+  min-width: 60px; /* Minimum width */
+  text-align: left; /* Align text to the left */
 }
 
-.search-engine-button:hover {
-  background-color: #f0f0f0;
+#search-engine-dropdown:hover,
+#search-engine-dropdown:focus {
+  border-color: #4285f4; /* Change border color on hover/focus */
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add a subtle shadow */
 }
 
-.search-engine-button.active {
-  background-color: #4285f4;
-  color: white;
-  border-color: #4285f4;
+/* Styling for the dropdown options */
+#search-engine-dropdown option {
+  padding: 8px 16px; /* Match padding of the dropdown */
+  background-color: white;
+  color: #333;
 }
 
-body.dark-mode .search-engine-button {
+/* Dark mode styles for the dropdown */
+body.dark-mode #search-engine-dropdown {
   background-color: #37474f;
   color: #f0f0f0;
   border-color: #607d8b;
 }
 
-body.dark-mode .search-engine-button:hover {
-  background-color: #455a64;
+body.dark-mode #search-engine-dropdown option {
+  background-color: #37474f;
+  color: #f0f0f0;
 }
 
-body.dark-mode .search-engine-button.active {
-  background-color: #607d8b;
-  color: #fff;
-  border-color: #607d8b;
+/* Styling for the custom arrow */
+#search-engine-dropdown::after {
+  content: '\25BC'; /* Unicode character for a down arrow */
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none; /* Make the arrow non-clickable */
+}
+
+/* Adjust the position of the custom arrow in dark mode */
+body.dark-mode #search-engine-dropdown::after {
+  color: #f0f0f0;
+}
+
+/* Container for dropdown and toggle */
+.top-right-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
 }
 
 @media (max-width: 768px) {
-  #search-engine-selector {
-    position: fixed;
-    top: 60px; /* Adjust for smaller screens */
+  .top-right-controls {
+    top: 15px;
     right: 15px;
-    flex-direction: column; /* Stack buttons on smaller screens */
-    align-items: flex-end; /* Align buttons to the right */
+    flex-direction: column;
+    align-items: flex-end;
     gap: 5px;
   }
-
-  .search-engine-button {
-    width: auto; /* Adjust width for stacked buttons */
-    display: block; /* Make them block elements */
-    text-align: center;
+  #search-engine-selector {
+    margin-bottom: 5px;
+  }
+  #search-engine-dropdown {
+    font-size: 12px;
   }
 }
 </style>
@@ -350,25 +371,29 @@ body.dark-mode .search-engine-button.active {
     <input type="submit" id="search-button" value="Ask the Capybara!">
   </form>
 </div>
-<div id="search-engine-selector">
-  <button class="search-engine-button active" data-engine="google">Google</button>
-  <button class="search-engine-button" data-engine="duckduckgo">DuckDuckGo</button>
-  <button class="search-engine-button" data-engine="bing">Bing</button>
+<div class="top-right-controls">
+  <div id="search-engine-selector">
+    <select id="search-engine-dropdown">
+      <option value="google">Google</option>
+      <option value="duckduckgo">DuckDuckGo</option>
+      <option value="bing">Bing</option>
+    </select>
+  </div>
+  <button id="dark-mode-toggle">
+    <svg class="toggle-icon sun-icon" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="5" fill="currentColor"/>
+      <path d="M12,2 L12,4 M12,20 L12,22 M4.22,4.22 L5.64,5.64 M18.36,18.36 L19.78,19.78 M2,12 L4,12 M20,12 L22,12 M4.22,19.78 L5.64,18.36 M18.36,5.64 L19.78,4.22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <svg class="toggle-icon moon-icon" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M9.916 5.5C6.4 5.5 3.5 8.4 3.5 11.916c0 3.516 2.9 6.416 6.416 6.416 1.812 0 3.458-.762 4.625-2.008a7.5 7.5 0 0 1-8.124-4.408z"/>
+    </svg>
+  </button>
 </div>
-<button id="dark-mode-toggle">
-  <svg class="toggle-icon sun-icon" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="5" fill="currentColor"/>
-    <path d="M12,2 L12,4 M12,20 L12,22 M4.22,4.22 L5.64,5.64 M18.36,18.36 L19.78,19.78 M2,12 L4,12 M20,12 L22,12 M4.22,19.78 L5.64,18.36 M18.36,5.64 L19.78,4.22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-  </svg>
-  <svg class="toggle-icon moon-icon" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M9.916 5.5C6.4 5.5 3.5 8.4 3.5 11.916c0 3.516 2.9 6.416 6.416 6.416 1.812 0 3.458-.762 4.625-2.008a7.5 7.5 0 0 1-8.124-4.408z"/>
-  </svg>
-</button>
 <script>
   const body = document.body;
   const darkModeToggle = document.getElementById('dark-mode-toggle');
   const searchForm = document.getElementById('search-form');
-  const searchEngineButtons = document.querySelectorAll('.search-engine-button');
+  const searchEngineDropdown = document.getElementById('search-engine-dropdown');
 
   // Search engine URLs
   const searchEngines = {
@@ -380,7 +405,6 @@ body.dark-mode .search-engine-button.active {
   // Function to set dark mode
   function setDarkMode(isDark) {
     body.classList.toggle('dark-mode', isDark);
-    // Update toggle icon visually
     if (isDark) {
       darkModeToggle.classList.add('dark-mode-active');
     } else {
@@ -399,13 +423,6 @@ body.dark-mode .search-engine-button.active {
   function setSearchEngine(engine) {
     searchForm.action = searchEngines[engine];
     localStorage.setItem('searchEngine', engine);
-    // Update button active state
-    searchEngineButtons.forEach(button => {
-      button.classList.remove('active');
-      if (button.dataset.engine === engine) {
-        button.classList.add('active');
-      }
-    });
   }
 
   // Apply dark mode based on stored preference on page load
@@ -420,6 +437,7 @@ body.dark-mode .search-engine-button.active {
     // Apply stored search engine preference
     const storedSearchEngine = localStorage.getItem('searchEngine');
     if (storedSearchEngine && searchEngines[storedSearchEngine]) {
+      searchEngineDropdown.value = storedSearchEngine;
       setSearchEngine(storedSearchEngine);
     }
   });
@@ -427,11 +445,9 @@ body.dark-mode .search-engine-button.active {
   // Add event listener to the toggle button
   darkModeToggle.addEventListener('click', toggleDarkMode);
 
-  // Add event listeners to search engine buttons
-  searchEngineButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      setSearchEngine(this.dataset.engine);
-    });
+  // Add event listener to the search engine dropdown
+  searchEngineDropdown.addEventListener('change', function() {
+    setSearchEngine(this.value);
   });
 </script>
 <div id="bottom-legal-container">
